@@ -48,12 +48,12 @@ class CloudFlareConfig:
     @ttl.setter
     def ttl(self, value):
         if not value:
-            value = 3600
+            value = 1
 
-        if value < 120:
-            raise ValueError("ttl must be greater than 120")
+        if int(value) < 1:
+            raise ValueError("ttl must be greater than 1")
 
-        self._ttl = value
+        self._ttl = int(value)
 
     @property
     def proxy(self):
@@ -75,7 +75,7 @@ class CloudFlareConfig:
         if not value:
             value = 5
 
-        if value < 1:
+        if int(value) < 1:
             raise ValueError("check_interval must be greater than 0")
 
-        self._check_interval = value
+        self._check_interval = int(value)

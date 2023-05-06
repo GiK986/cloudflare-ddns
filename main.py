@@ -51,7 +51,9 @@ def main(config: CloudFlareConfig) -> None:
 if __name__ == '__main__':
     if os.path.exists("main.log"):
         os.remove("main.log")
-    logging.basicConfig(filename="main.log", level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s --> %(levelname)s: %(message)s',
+                        datefmt='%d.%m.%Y %H:%M:%S',)
     logging.info("Start main.py")
     logging.info("Load config")
     cf_config = get_cf_config()

@@ -26,10 +26,35 @@
  The script includes logging and error handling for easy troubleshooting.
  The output logs are written to the Docker container's log file.
 
+## Docker Build
+
+ To build the Docker image, run the following command:
+
+### platform=linux/arm64  
+
+``` bash
+ docker build --platform=linux/arm64 -t gik986/cloudflare-ddns:latest-arm64 .
+```
+
+### platform=linux/amd64  
+
+``` bash
+ docker build --platform=linux/amd64 -t gik986/cloudflare-ddns:latest-amd64 .
+```
+
 ## Docker Image
 
  The script is available as a Docker image on Docker Hub, making it easy to deploy and get started with.
  You can pull the image with the following command:
+
+### Environment variables  
+
+- ENV CF_API_KEY=""
+- ENV CF_ZONE_ID=""
+- ENV CF_RECORD_NAME=""
+- ENV CF_TTL=1
+- ENV CF_PROXIED="false"
+- ENV CF_CHECK_INTERVAL=60  
 
 ``` bash
  docker pull <DOCKER_USERNAME>/cloudflare-ddns
