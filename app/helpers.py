@@ -1,16 +1,16 @@
 import logging
 import os
 
-import CloudFlare
+from cloudflare import Cloudflare
 
 from cloudflare_config import CloudFlareConfig
 
 
-def verifier_record(cf: CloudFlare, zone_id: str, record_name: str) -> None:
+def verifier_record(cf: Cloudflare, zone_id: str, record_name: str) -> None:
     try:
-        dns_records = cf.zones.dns_records.get(zone_id)
-        dns_records_names = [dns_record['name'] for dns_record in dns_records if dns_record['type'] == 'A']
-    except CloudFlare.exceptions.CloudFlareAPIError as err:
+        dns_records = list(cf.dns.records.list(zone_id=zone_id))
+        dns_records_names = [dns_record.name for dns_record in dns_records if dns_record.type == 'A']
+    except Exception as err:
         logging.error(f"CloudFlare API Error: {err}")
         exit(1)
     if len(dns_records) == 0:
@@ -21,11 +21,11 @@ def verifier_record(cf: CloudFlare, zone_id: str, record_name: str) -> None:
         exit(1)
 
 
-def verifier_zone(cf: CloudFlare, zone_id: str) -> None:
+def verifier_zone(cf: Cloudflare, zone_id: str) -> None:
     try:
-        zones = cf.zones.get()
-        zones_ids = [zone['id'] for zone in zones]
-    except CloudFlare.exceptions.CloudFlareAPIError as err:
+        zones = list(cf.zones.list())
+        zones_ids = [zone.id for zone in zones]
+    except Exception as err:
         logging.error(f"CloudFlare API Error: {err}")
         exit(1)
     if len(zones) == 0:
